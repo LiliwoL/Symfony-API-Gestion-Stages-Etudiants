@@ -36,3 +36,19 @@ symfony console doctrine:migration:migrate
 
 # Création des Contrôleurs
 
+## Dépendance
+
+```bash
+composer require doctrine/annotations
+```
+
+```bash
+symfony console make:controller ApiStudentController
+```
+
+## Normalisation
+
+composer require symfony/serializer-pack
+
+On va renvoyer un objet de la base de données au format JSON
+
