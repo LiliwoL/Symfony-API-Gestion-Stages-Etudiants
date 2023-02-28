@@ -20,5 +20,19 @@ composer require orm
 ## Création
 
 ```bash
-symfony consolme make:entity
+symfony console make:entity
 ```
+
+# Migrations de la structure
+
+On va appliquer à la base les modifications
+
+```bash
+symfony console make:migration
+symfony console doctrine:migration:migrate
+```
+
+# Import des données avec Sqlite
+
+# Création des Contrôleurs
+
