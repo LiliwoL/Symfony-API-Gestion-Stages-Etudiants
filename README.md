@@ -37,11 +37,6 @@ symfony console doctrine:migration:migrate
 
 # Création des Contrôleurs
 
-## Dépendance
-
-```bash
-composer require doctrine/annotations
-```
 
 ```bash
 symfony console make:controller ApiStudentController
