@@ -57,9 +57,11 @@ class ApiStudentController extends AbstractController
     public function add( Request $request, EntityManagerInterface $entityManager ): JsonResponse
     {
         // On attend une requête au format json (Content-Type application/json)
-        // TODO: Vérifier le Content-Type
-
+        // TODO: Vérifier le Content-Type et le format
+        // TODO: Vérifier que les données sont correctes et entières
         /*
+            Payload a fournir dans la requête en POST
+
             {
                 "name":"didier",
                 "firstname":"favreau",
@@ -73,25 +75,25 @@ class ApiStudentController extends AbstractController
         //dd($request->toArray());
 
         // On stocke le body de la requête dans $dataFromRequest
+        // La méthode toArray() est possible car on est sûr que le body de la requête est du JSON
         $dataFromRequest = $request->toArray();
 
 
         // *******************************************************
 
         // Ici, les données ont été vérifiées, on peut créer une nouvelle instance de Student
+        // TODO: Vérifier que les valeurs sont correctes et valides
         $student = new Student();
         $student->setName( $dataFromRequest['name'] );
         $student->setFirstname( $dataFromRequest['firstname'] );
         $student->setPicture ($dataFromRequest['picture'] );
         $student->setDateOfBirth( new DateTime($dataFromRequest['date_of_birth']) );
         $student->setGrade( $dataFromRequest['grade'] );
-
         
 
         // Insertion en base de l'instance student
         $entityManager->persist( $student );
         $entityManager->flush();
-
 
         return $this->json([
             'status' => 'Ajout OK'
