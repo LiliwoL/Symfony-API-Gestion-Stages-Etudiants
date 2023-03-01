@@ -2,11 +2,16 @@
 
 namespace App\Controller;
 
-use App\Repository\StudentRepository;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Student;
+use App\Repository\StudentRepository;
+use DateTime;
 
 class ApiStudentController extends AbstractController
 {
@@ -76,7 +81,7 @@ class ApiStudentController extends AbstractController
         // Ici, les données ont été vérifiées, on peut créer une nouvelle instance de Student
         $student = new Student();
         $student->setName( $dataFromRequest['name'] );
-        $student->setFirstame( $dataFromRequest['firstname'] );
+        $student->setFirstname( $dataFromRequest['firstname'] );
         $student->setPicture ($dataFromRequest['picture'] );
         $student->setDateOfBirth( new DateTime($dataFromRequest['date_of_birth']) );
         $student->setGrade( $dataFromRequest['grade'] );
