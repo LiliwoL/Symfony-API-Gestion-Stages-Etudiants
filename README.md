@@ -14,11 +14,12 @@ Créez le fichier .env
 
 ```
 composer require symfony/maker-bundle --dev
+composer require doctrine/annotations
 composer require orm
 ```
 
 ## Création
 
 ```bash
-symfony consolme make:entity
+symfony consome make:entity
 ```
