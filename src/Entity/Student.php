@@ -6,27 +6,41 @@ use App\Repository\StudentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: StudentRepository::class)]
+/**
+ * @ORM\Entity(repositoryClass=StudentRepository::class)
+ */
 class Student
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     private ?string $picture = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    /**
+     * @ORM\Column(type="date")
+     */
     private ?\DateTimeInterface $dateOfBirth = null;
 
-    #[ORM\Column(length: 255)]
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     private ?string $grade = null;
 
     public function getId(): ?int
