@@ -8,5 +8,12 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> v2-Controllers
+>>>>>>> v1
 .idea
 .env

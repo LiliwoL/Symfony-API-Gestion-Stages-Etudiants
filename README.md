@@ -21,5 +21,35 @@ composer require orm
 ## Création
 
 ```bash
-symfony consome make:entity
+symfony console make:entity
 ```
+
+# Migrations de la structure
+
+On va appliquer à la base les modifications
+
+```bash
+symfony console make:migration
+symfony console doctrine:migration:migrate
+```
+
+# Import des données avec Sqlite
+
+# Création des Contrôleurs
+
+## Dépendance
+
+```bash
+composer require doctrine/annotations
+```
+
+```bash
+symfony console make:controller ApiStudentController
+```
+
+## Normalisation
+
+composer require symfony/serializer-pack
+
+On va renvoyer un objet de la base de données au format JSON
+
