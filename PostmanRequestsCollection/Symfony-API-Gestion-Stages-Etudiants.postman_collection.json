@@ -1,0 +1,54 @@
+{
+	"info": {
+		"_postman_id": "0012b000-d053-4da4-9cb9-93725b9f7272",
+		"name": "Symfony-API-Gestion-Stages-Etudiants",
+		"description": "Collection Postman pour interagir avec l'API du projet [https://github.com/LiliwoL/Symfony-API-Gestion-Stages-Etudiants.git](https://github.com/LiliwoL/Symfony-API-Gestion-Stages-Etudiants.git)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2209621"
+	},
+	"item": [
+		{
+			"name": "Liste des Student",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"didier\",\n    \"firstname\":\"favreau\",\n    \"picture\": \"TEST image vide\",\n    \"date_of_birth\": \"15-05-1981\",\n    \"grade\": \"PROF\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/student",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"student"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

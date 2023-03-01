@@ -41,6 +41,7 @@ class ApiStudentController extends AbstractController
         dd($students, $json, $studentsNormalised);
 
         // Renvoi d'une réponse au format JSON
+        // TODO: améliorer la réponse de cette action de controller
         return $this->json([
             'message' => 'Welcome to your new controller!',
             'path' => 'src/Controller/ApiStudentController.php',
