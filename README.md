@@ -172,3 +172,5 @@ On fait ensuite le controller ApiInternshipController avec les actions
 > Si on retente les routes pour lister les étudiants
 > 
 Message **Circular Reference**
+
+Il faut ajouter un contexte au normalizer
