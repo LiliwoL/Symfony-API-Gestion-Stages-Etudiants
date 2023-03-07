@@ -31,6 +31,29 @@
 			"response": []
 		},
 		{
+			"name": "Liste des Stages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/internship",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"internship"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Liste des Companies",
 			"request": {
 				"method": "GET",
@@ -112,6 +135,38 @@
 					"path": [
 						"api",
 						"company"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a internship",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idStudent\": 101,\n    \"idCompany\": 101,\n    \"startDate\": \"07/03/2023\",\n    \"endDate\": \"31/08/2023\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/internship",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"internship"
 					]
 				}
 			},
