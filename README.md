@@ -110,6 +110,19 @@ Vérifiez les routes existantes.
 
 # Travail à faire
 
-* Améliorez l'existant (vérification, retirer les commandes de debug **dd**,  contenu des réponses)
+* Améliorez l'existant (vérification, retirer les commandes de debug **dd**, contenu des réponses)
 * Ajouter un contrôleur **Company** sur le même modèle.
 * Publiez le résultat dans votre GitHub et fournissez l'url à l'enseignant.
+* Générer une doucmentaiton de l'API
+  * https://github.com/slatedocs/slate
+  * https://github.com/nelmio/NelmioApiDocBundle
+  * https://swagger.io/solutions/api-documentation/
+  * https://readme.com/documentation
+  * https://github.com/Mermade/widdershins
+  * https://www.postman.com/api-documentation-tool/
+
+# Entité Company
+
+```bash
+symfony console make:entity
+```

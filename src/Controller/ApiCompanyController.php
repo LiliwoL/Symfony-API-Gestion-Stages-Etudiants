@@ -2,43 +2,40 @@
 
 namespace App\Controller;
 
-
+use App\Entity\Company;
+use App\Repository\CompanyRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Student;
-use App\Repository\StudentRepository;
-use DateTime;
 
-class ApiStudentController extends AbstractController
+class ApiCompanyController extends AbstractController
 {
-
     /**
-     * #[Route('/api/student', name: 'api_student_index')]
+     * #[Route('/api/company', name: 'api_company_index')]
      *
      * @Route(
-     *     "/api/student",
-     *     name="api_student_index",
+     *     "/api/company",
+     *     name="api_company_index",
      *     methods={"GET"}
      * )
      */
-    public function index( StudentRepository $studentRepository, NormalizerInterface $normalizer): JsonResponse
+    public function index( CompanyRepository $companyRepository, NormalizerInterface $normalizer): JsonResponse
     {
-        // Récupération de tous les étudiants
-        $students = $studentRepository->findAll();
+        // Récupération de toutes les entreprises
+        $companies = $companyRepository->findAll();
 
         // Sérialisation au format JSON
-        $json = json_encode($students);
+        $json = json_encode($companies);
         // Ne va pas fonctionner car les attributs sont en private
         // Il faut normaliser!
 
-        $studentsNormalised = $normalizer->normalize($students);
+        $companiesNormalized = $normalizer->normalize($companies);
 
         // Debug in PostMan
-        dd($students, $json, $studentsNormalised);
+        dd($companies, $json, $companiesNormalized);
 
         // Renvoi d'une réponse au format JSON
         // TODO: améliorer la réponse de cette action de controller
@@ -50,8 +47,8 @@ class ApiStudentController extends AbstractController
 
     /**
      * @Route(
-     *  "/api/student",
-     *  name="app_api_student_add",
+     *  "/api/company",
+     *  name="app_api_company_add",
      *  methods={"POST"}
      * )
      */
@@ -63,11 +60,11 @@ class ApiStudentController extends AbstractController
         /*
             Payload a fournir dans la requête en POST
             {
-                "name":"didier",
-                "firstname":"favreau",
-                "picture": "TEST image vide",
-                "date_of_birth": "15-05-1981",
-                "grade": "PROF"
+                "name":"Lycée Fénelon",
+                "street":"rue Massiou",
+                "zipcode": "17000",
+                "city": "La Rochelle",
+                "website": "http://www.fenelon-notredame.com"
             }
         */
 
@@ -83,20 +80,21 @@ class ApiStudentController extends AbstractController
 
         // Ici, les données ont été vérifiées, on peut créer une nouvelle instance de Student
         // TODO: Vérifier que les valeurs sont correctes et valides
-        $student = new Student();
-        $student->setName( $dataFromRequest['name'] );
-        $student->setFirstname( $dataFromRequest['firstname'] );
-        $student->setPicture ($dataFromRequest['picture'] );
-        $student->setDateOfBirth( new DateTime($dataFromRequest['date_of_birth']) );
-        $student->setGrade( $dataFromRequest['grade'] );
-        
+        $company = new Company();
+        $company->setName( $dataFromRequest['name'] );
+        $company->setStreet( $dataFromRequest['street'] );
+        $company->setZipcode( $dataFromRequest['zipcode'] );
+        $company->setCity( $dataFromRequest['city'] );
+        $company->setWebsite( $dataFromRequest['website'] );
+
+
 
         // Insertion en base de l'instance student
-        $entityManager->persist( $student );
+        $entityManager->persist($company);
         $entityManager->flush();
 
         return $this->json([
-            'status' => 'Ajout OK'
+            'status' => 'Ajout de la nouvelle entreprise OK'
         ]);
     }
 }
