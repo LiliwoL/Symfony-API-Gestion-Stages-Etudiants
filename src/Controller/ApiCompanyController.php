@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ApiCompanyController extends AbstractController
@@ -21,6 +22,7 @@ class ApiCompanyController extends AbstractController
      *     name="api_company_index",
      *     methods={"GET"}
      * )
+     * @throws ExceptionInterface
      */
     public function index( CompanyRepository $companyRepository, NormalizerInterface $normalizer): JsonResponse
     {
@@ -32,7 +34,22 @@ class ApiCompanyController extends AbstractController
         // Ne va pas fonctionner car les attributs sont en private
         // Il faut normaliser!
 
-        $companiesNormalized = $normalizer->normalize($companies);
+        /**
+         * Gestion de la circular reference
+         */
+        // On ne peut laisser ceci, car sinon on obtient l'erreur circular reference
+        //$companiesNormalized = $normalizer->normalize($companies);
+
+        // Il faut alors gérer un contexte de sérialisation
+        $companiesNormalized = $normalizer->normalize(
+            $companies,
+            'json',
+            [
+                'circular_reference_handler' => function ($object) {
+                    return $object->getId();
+                }
+            ]
+        );
 
         // Debug in PostMan
         dd($companies, $json, $companiesNormalized);

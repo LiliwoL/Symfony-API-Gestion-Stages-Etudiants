@@ -163,3 +163,12 @@ symfony console make:migration
 symfony console d:m:m
 
 ![doc/img.png](doc/img.png)
+
+On fait ensuite le controller ApiInternshipController avec les actions
+
+* index
+* add
+> Problème:
+> Si on retente les routes pour lister les étudiants
+> 
+Message **Circular Reference**
