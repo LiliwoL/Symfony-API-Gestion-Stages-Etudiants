@@ -113,7 +113,7 @@ Vérifiez les routes existantes.
 * Améliorez l'existant (vérification, retirer les commandes de debug **dd**, contenu des réponses)
 * Ajouter un contrôleur **Company** sur le même modèle.
 * Publiez le résultat dans votre GitHub et fournissez l'url à l'enseignant.
-* Générer une doucmentaiton de l'API
+* Générer une doucmentation de l'API
   * https://github.com/slatedocs/slate
   * https://github.com/nelmio/NelmioApiDocBundle
   * https://swagger.io/solutions/api-documentation/
@@ -126,3 +126,51 @@ Vérifiez les routes existantes.
 ```bash
 symfony console make:entity
 ```
+
+# Ajout de la relation Student / Company
+
+```bash
+symfony console make:entity
+```
+
+Entité: Internship
+
+Champ: idStudent
+Type: relation
+RelationType: ManyToOne
+Nullable: no
+Add a property to Student: yes
+New field inside Student: internships
+OrphanRemoval: no
+
+Champ: idCompany
+Type: relation
+RelationType: ManyToOne
+Nullable: no
+Add a property to Student: yes
+New field inside Student: internships
+OrphanRemoval: no
+
+Champ: startDate
+Type: date
+
+Champ: endDate
+Type: date
+
+
+symfony console make:migration
+
+symfony console d:m:m
+
+![doc/img.png](doc/img.png)
+
+On fait ensuite le controller ApiInternshipController avec les actions
+
+* index
+* add
+> Problème:
+> Si on retente les routes pour lister les étudiants
+> 
+Message **Circular Reference**
+
+Il faut ajouter un contexte au normalizer

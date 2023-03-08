@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StudentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -42,6 +44,16 @@ class Student
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $grade = null;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Internship::class, mappedBy="idStudent")
+     */
+    private $internships;
+
+    public function __construct()
+    {
+        $this->internships = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,6 +116,36 @@ class Student
     public function setGrade(string $grade): self
     {
         $this->grade = $grade;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Internship>
+     */
+    public function getInternships(): Collection
+    {
+        return $this->internships;
+    }
+
+    public function addInternship(Internship $internship): self
+    {
+        if (!$this->internships->contains($internship)) {
+            $this->internships[] = $internship;
+            $internship->setIdStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInternship(Internship $internship): self
+    {
+        if ($this->internships->removeElement($internship)) {
+            // set the owning side to null (unless already changed)
+            if ($internship->getIdStudent() === $this) {
+                $internship->setIdStudent(null);
+            }
+        }
 
         return $this;
     }

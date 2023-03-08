@@ -6,6 +6,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,6 +25,7 @@ class ApiStudentController extends AbstractController
      *     name="api_student_index",
      *     methods={"GET"}
      * )
+     * @throws ExceptionInterface
      */
     public function index( StudentRepository $studentRepository, NormalizerInterface $normalizer): JsonResponse
     {
@@ -35,7 +37,22 @@ class ApiStudentController extends AbstractController
         // Ne va pas fonctionner car les attributs sont en private
         // Il faut normaliser!
 
-        $studentsNormalised = $normalizer->normalize($students);
+        /**
+         * Gestion de la circular reference
+         */
+        // On ne peut laisser ceci, car sinon on obtient l'erreur circular reference
+        //$studentsNormalised = $normalizer->normalize($students);
+
+        // Il faut alors gérer un contexte de sérialisation
+        $studentsNormalised = $normalizer->normalize(
+            $students,
+            'json',
+            [
+                'circular_reference_handler' => function ($object) {
+                    return $object->getId();
+                }
+            ]
+        );
 
         // Debug in PostMan
         dd($students, $json, $studentsNormalised);

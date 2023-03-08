@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CompanyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,16 @@ class Company
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $website = null;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Internship::class, mappedBy="idCompany")
+     */
+    private $internships;
+
+    public function __construct()
+    {
+        $this->internships = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,6 +115,36 @@ class Company
     public function setWebsite(?string $website): self
     {
         $this->website = $website;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Internship>
+     */
+    public function getInternships(): Collection
+    {
+        return $this->internships;
+    }
+
+    public function addInternship(Internship $internship): self
+    {
+        if (!$this->internships->contains($internship)) {
+            $this->internships[] = $internship;
+            $internship->setIdCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInternship(Internship $internship): self
+    {
+        if ($this->internships->removeElement($internship)) {
+            // set the owning side to null (unless already changed)
+            if ($internship->getIdCompany() === $this) {
+                $internship->setIdCompany(null);
+            }
+        }
 
         return $this;
     }
