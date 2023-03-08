@@ -64,8 +64,8 @@ class ApiInternshipController extends AbstractController
             {
                 "idStudent": 101,
                 "idCompany": 101,
-                "startDate": "2023-03-07",
-                "endDate": "2023-08-31"
+                "startDate": "07-03-2023",
+                "endDate": "31-08-2023"
             }
         */
 
