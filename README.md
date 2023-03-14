@@ -1,12 +1,15 @@
 # API Gestion de stage des étudiants
 
-[TOC]
+![](doc/logo_api.png)
 
 Un projet de découverte de Symfony pour la création d'une API.
 
 # API
 
-Rappels sur une API
+![](doc/what_is_api.png)
+
+
+![](doc/api_request_response.png)
 
 ***
 
