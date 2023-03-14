@@ -1,59 +1,78 @@
 # API Gestion de stage des étudiants
 
-[toc]
+[TOC]
 
 Un projet de découverte de Symfony pour la création d'une API.
 
-# Installation
+# API
 
-Installation de Symfony en version minimale (aucune dépendance, il faudra tout installer manuellement)
+Rappels sur une API
+
+***
+
+# Initialisation du projet
+
+> Requis:
+> Vous devez avoir le module **sqlite3** d'activé sur votre installation PHP.
+> Pour vérifier: `php -m`
+
+## Installation from scratch 
+
+Installation de Symfony en version minimale (aucune dépendance, il faudra **tout** installer manuellement)
 
 ```bash
 symfony new API-Gestion-Stages-Etudiants --version="5.4"
 ```
 
-# Clonage
+### Liste des dépendances à ajouter
+
+Via composer, vous allez ajouter les dépendances suivantes, elles seront utiles ultérieurement.
+
+```bash
+# Uniquement en environnement de dev, un bundle facilitant la création d'éléments dans Symfony
+composer require symfony/maker-bundle --dev
+
+# Si vous utilisez un serveur Apache
+composer require symfony/apache-pack
+
+# Pour la base de données
+composer require doctrine/annotations
+composer require orm
+
+# Pour sérialiser et normaliser les données
+composer require symfony/serializer-pack
+```
+
+## Clonage du projet
+
+Récupérez le projet depouis GitHub.
 
 ```bash
 git clone git@github.com:LiliwoL/Symfony-API-Gestion-Stages-Etudiants.git
 cd Symfony-API-Gestion-Stages-Etudiants
 ```
 
-# Installation des dépendances
+### Installation des dépendances
 
+Dans le fichier **composer.json**, toutes les dépendances nécessaires sont listées.
+Installez-les avec la commande :
 ```bash
 composer install
 ```
 
-## Dans le cas d'une API servie par un serveur Apache
-
-Installez la dépendance **apache-pack**
-
-```bash
-composer require symfony/apache-pack
-```
+***
 
 # Configuration
 
-Créez le fichier .env dans lequel on va spécifier un secret, mais surtout l'emplacement de la base de données sqlite.
+Comme dans tous les projets Symfony, la configuration se fait dans un fichier d'environnement.
+Créez le fichier **.env** dans lequel on va spécifier un secret, mais surtout l'emplacement de la base de données sqlite.
+Vous pouvez recopier le fichier **.env.sample** comme exemple.
 
-## Module sqlite dans PHP
-
-Pour vérifier que le module sqlite3 est bien installé avec PHP:
-
-```bash
-php -m
-```
+***
 
 # Création des entités
 
-## Dépendance
-
-```
-composer require symfony/maker-bundle --dev
-composer require doctrine/annotations
-composer require orm
-```
+Les entités sont la représentation **objet** des tables qui figureront dans la base de données
 
 ## Création
 
@@ -61,12 +80,18 @@ composer require orm
 symfony console make:entity
 ```
 
+Répondez aux questions.
+
 # Migrations de la structure
 
 On va appliquer à la base de données les déclarations objets.
+En résumé, les entités seront transformées en tables dans la base.
 
 ```bash
+# Génération de fichiers de migration
 symfony console make:migration
+
+# Application des migrations dans la base
 symfony console doctrine:migration:migrate
 ```
 
@@ -80,12 +105,17 @@ Pour ajouter les données dans sqlite, utilisez les fichiers **sql** placés dan
 symfony console make:controller ApiStudentController
 ```
 
-## Normalisation
+***
+
+# Normalisation / Sérialisation
 
 Afin d'afficher sous forme de tableau un objet, on va recourir à la **normalisation**.
 Dans le sens inverse, ce sera de la **sérialization**.
 
 Symfony propose des interfaces performantes pour cela.
+
+On utilisera le composant **serializer-pack**.
+Il a normalement été installé à la création, ou au clonage du projet.
 
 ```bash
 composer require symfony/serializer-pack
@@ -93,9 +123,12 @@ composer require symfony/serializer-pack
 
 On va renvoyer un objet de la base de données au format JSON
 
+***
+
 # Vérification des routes avec Postman
 
-Lancez votre serveur web, ou le serveur intégré à Symfony.
+Lancez votre serveur web Apache ou utilisez le serveur intégré à Symfony.
+
 ```bash
 symfony serve
 ```
@@ -113,7 +146,7 @@ Vérifiez les routes existantes.
 * Améliorez l'existant (vérification, retirer les commandes de debug **dd**, contenu des réponses)
 * Ajouter un contrôleur **Company** sur le même modèle.
 * Publiez le résultat dans votre GitHub et fournissez l'url à l'enseignant.
-* Générer une doucmentation de l'API
+* Générer une documentation de l'API
   * https://github.com/slatedocs/slate
   * https://github.com/nelmio/NelmioApiDocBundle
   * https://swagger.io/solutions/api-documentation/
@@ -173,4 +206,42 @@ On fait ensuite le controller ApiInternshipController avec les actions
 > 
 Message **Circular Reference**
 
-Il faut ajouter un contexte au normalizer
+![](doc/circular_reference.png)
+
+Il faut ajouter un contexte au normalizer.
+
+
+***
+
+# Routes
+
+## Students
+
+### Liste des étudiants
+
+GET /api/student
+
+![](doc/student_list.png)
+
+### Ajour d'un étudiant
+
+POST /api/student
+
+Attention au Header, qui DOIT être en json
+![](doc/header_json.png)
+
+Payload à fournir:
+```json
+{
+    "name":"didier",
+    "firstname":"favreau",
+    "picture": "TEST image vide",
+    "date_of_birth": "15-05-1981",
+    "grade": "PROF"
+}
+```
+
+# Génération d'une documentation d'API
+
+# Sécurisation d'une API
+

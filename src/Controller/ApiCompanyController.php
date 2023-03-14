@@ -31,8 +31,8 @@ class ApiCompanyController extends AbstractController
 
         // Sérialisation au format JSON
         $json = json_encode($companies);
-        // Ne va pas fonctionner car les attributs sont en private
-        // Il faut normaliser!
+        // Ne va pas fonctionner, car les attributs sont en private.
+        // Il faut normaliser !
 
         /**
          * Gestion de la circular reference

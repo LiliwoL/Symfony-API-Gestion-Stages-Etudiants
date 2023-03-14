@@ -31,10 +31,25 @@ class ApiInternshipController extends AbstractController
 
         // Sérialisation au format JSON
         $json = json_encode($internships);
-        // Ne va pas fonctionner car les attributs sont en private
-        // Il faut normaliser!
+        // Ne va pas fonctionner, car les attributs sont en private.
+        // Il faut normaliser !
 
-        $internshipsNormalised = $normalizer->normalize($internships);
+        /**
+         * Gestion de la circular reference
+         */
+        // On ne peut laisser ceci, car sinon on obtient l'erreur circular reference
+        //$internshipsNormalised = $normalizer->normalize($internships);
+
+        // Il faut alors gérer un contexte de sérialisation
+        $internshipsNormalised = $normalizer->normalize(
+            $internships,
+            'json',
+            [
+                'circular_reference_handler' => function ($object) {
+                    return $object->getId();
+                }
+            ]
+        );
 
         // Debug in PostMan
         dd($internships, $json, $internshipsNormalised);
@@ -73,7 +88,7 @@ class ApiInternshipController extends AbstractController
         //dd($request->toArray());
 
         // On stocke le body de la requête dans $dataFromRequest
-        // La méthode toArray() est possible car on est sûr que le body de la requête est du JSON
+        // La méthode toArray() est possible, car on est sûr que le body de la requête est du JSON
         $dataFromRequest = $request->toArray();
 
         // Création des données
@@ -103,5 +118,41 @@ class ApiInternshipController extends AbstractController
         return $this->json([
             'status' => 'Ajout du nouveau stage OK'
         ]);
+    }
+
+    /**
+     * @Route(
+     *  "/api/internship/student/{id}",
+     *  name="app_api_internship_show_student",
+     *  methods={"GET"}
+     * )
+     * @return void
+     */
+    public function showInternshipsByStudent( InternshipRepository $internshipRepository, NormalizerInterface $normalizer, int $id )
+    {
+        // Recherche des stages pour un étudiant donné
+        $internships = $internshipRepository->findBy(
+            ['idStudent' => $id]
+        );
+
+        /**
+         * Gestion de la circular reference
+         */
+        // On ne peut laisser ceci, car sinon on obtient l'erreur circular reference
+        //$internshipsNormalised = $normalizer->normalize($internships);
+
+        // Il faut alors gérer un contexte de sérialisation
+        $internshipsNormalised = $normalizer->normalize(
+            $internships,
+            'json',
+            [
+                'circular_reference_handler' => function ($object) {
+                    return $object->getId();
+                }
+            ]
+        );
+
+        // Debug in PostMan
+        dd($internships, $internshipsNormalised);
     }
 }

@@ -44,6 +44,26 @@
 			"response": []
 		},
 		{
+			"name": "Liste des Stages pour un étudiant donné",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/internship/student/101",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"internship",
+						"student",
+						"101"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Liste des Companies",
 			"request": {
 				"method": "GET",
@@ -167,6 +187,12 @@
 		{
 			"key": "URL",
 			"value": "http://172.16.3.2/SLAM2/Symfony-API-Gestion-Stages-Etudiants/public",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "URL",
+			"value": "http://127.0.0.1:8000",
 			"type": "string"
 		}
 	]
