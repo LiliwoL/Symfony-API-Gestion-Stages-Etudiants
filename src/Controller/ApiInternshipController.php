@@ -131,6 +131,7 @@ class ApiInternshipController extends AbstractController
     public function showInternshipsByStudent( InternshipRepository $internshipRepository, NormalizerInterface $normalizer, int $id )
     {
         // Recherche des stages pour un étudiant donné
+        // https://symfony.com/doc/5.4/doctrine.html#fetching-objects-from-the-database
         $internships = $internshipRepository->findBy(
             ['idStudent' => $id]
         );
@@ -138,7 +139,7 @@ class ApiInternshipController extends AbstractController
         /**
          * Gestion de la circular reference
          */
-        // On ne peut laisser ceci, car sinon on obtient l'erreur circular reference
+        // On ne peut laisser ceci, car sinon on obtient  l'erreur circular reference
         //$internshipsNormalised = $normalizer->normalize($internships);
 
         // Il faut alors gérer un contexte de sérialisation
