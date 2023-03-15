@@ -6,15 +6,15 @@ Un projet de découverte de Symfony pour la création d'une API.
 
 # API
 
-![](doc/what_is_api.png)
+![doc/what_is_api.png](doc\what_is_api.png)
 
 
-![](doc/api_request_response.png)
+![doc/api_request_response.png](doc/api_request_response.png)
 
 ***
 
 # Initialisation du projet
-
+:
 > Requis:
 > Vous devez avoir le module **sqlite3** d'activé sur votre installation PHP.
 > Pour vérifier: `php -m`
