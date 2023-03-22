@@ -32,7 +32,8 @@ class ApiStudentController extends AbstractController
         $authorized = $apiKeyService->checkApiKey($request);
 
         // 2. Si autorisé, on continue
-        if ($authorized){
+        if ($authorized)
+        {
 
             // Récupération de tous les étudiants
             $students = $studentRepository->findAll();
@@ -70,9 +71,7 @@ class ApiStudentController extends AbstractController
 
         }
 
-
         // Renvoi d'une réponse au format JSON
-        // TODO: améliorer la réponse de cette action de controller
         return $this->json(
             $output
         );
