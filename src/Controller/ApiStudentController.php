@@ -31,42 +31,51 @@ class ApiStudentController extends AbstractController
         // 1. Vérification de la sécurité
         $authorized = $apiKeyService->checkApiKey($request);
 
-        dd($authorized);
+        // 2. Si autorisé, on continue
+        if ($authorized){
 
-        // Récupération de tous les étudiants
-        $students = $studentRepository->findAll();
+            // Récupération de tous les étudiants
+            $students = $studentRepository->findAll();
 
-        // Sérialisation au format JSON
-        $json = json_encode($students);
-        // Ne va pas fonctionner car les attributs sont en private
-        // Il faut normaliser!
+            // Sérialisation au format JSON
+            $json = json_encode($students);
+            // Ne va pas fonctionner car les attributs sont en private
+            // Il faut normaliser!
 
-        /**
-         * Gestion de la circular reference
-         */
-        // On ne peut laisser ceci, car sinon on obtient l'erreur circular reference
-        //$studentsNormalised = $normalizer->normalize($students);
+            /**
+             * Gestion de la circular reference
+             */
+            // On ne peut laisser ceci, car sinon on obtient l'erreur circular reference
+            //$studentsNormalised = $normalizer->normalize($students);
 
-        // Il faut alors gérer un contexte de sérialisation
-        $studentsNormalised = $normalizer->normalize(
-            $students,
-            'json',
-            [
-                'circular_reference_handler' => function ($object) {
-                    return $object->getId();
-                }
-            ]
-        );
+            // Il faut alors gérer un contexte de sérialisation
+            $studentsNormalised = $normalizer->normalize(
+                $students,
+                'json',
+                [
+                    'circular_reference_handler' => function ($object) {
+                        return $object->getId();
+                    }
+                ]
+            );
 
-        // Debug in PostMan
-        dd($students, $json, $studentsNormalised);
+            // Debug in PostMan
+            //dd($students, $json, $studentsNormalised);
+
+            $output = $studentsNormalised;
+
+        }else{
+
+            $output = [ "Error" => "Unauthorized"];
+
+        }
+
 
         // Renvoi d'une réponse au format JSON
         // TODO: améliorer la réponse de cette action de controller
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/ApiStudentController.php',
-        ]);
+        return $this->json(
+            $output
+        );
     }
 
     /**

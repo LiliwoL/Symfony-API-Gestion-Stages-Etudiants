@@ -22,9 +22,11 @@ class ApiKeyService
         // Attention les Headers HTTP ne peuvent pas avoir de underscore (c'est déprécié en tout cas)
         $API_KEY = $request->headers->get('API-KEY');
 
-        // Contenu de API_KEY
+        // 2. Contenu de API-KEY
         if ($API_KEY)
-            $output = true;
+            // Test de la longueur de $API_KEY
+            // On ne vérifie que la longueur de la clé
+            $output = strlen($API_KEY) == 42;
         else
             $output = false;
 

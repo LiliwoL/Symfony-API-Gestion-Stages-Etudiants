@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "818e124d-a54e-470b-a2ee-46f6f76a130a",
 		"name": "Symfony-API-Gestion-Stages-Etudiants",
-		"description": "Collection Postman pour interagir avec l'API du projet [https://github.com/LiliwoL/Symfony-API-Gestion-Stages-Etudiants.git](https://github.com/LiliwoL/Symfony-API-Gestion-Stages-Etudiants.git)",
+		"description": "Collection Postman pour interagir avec l'API du projet [https://github.com/LiliwoL/Symfony-API-Gestion-Stages-Etudiants.git](https://github.com/LiliwoL/Symfony-API-Gestion-Stages-Etudiants.gitLa)\n\nLa collection PostMan utilise une variable { { URL } } qui vaut actuellement: {{URL}}\n\nà modifier selon votre environnement.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "2209621"
 	},
@@ -57,6 +57,26 @@
 						"api",
 						"internship",
 						"student",
+						"101"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Liste des Stages pour une entreprise donnée",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/internship/company/101",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"internship",
+						"company",
 						"101"
 					]
 				}
@@ -163,6 +183,26 @@
 			"response": []
 		}
 	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "zW2a08_R4g3Wx6Cuh%g-SZhSsw3GJiPJO18TtmN%wn",
+				"type": "string"
+			},
+			{
+				"key": "in",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "API-KEY",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -187,13 +227,13 @@
 		{
 			"key": "URL",
 			"value": "http://172.16.3.2/SLAM2/Symfony-API-Gestion-Stages-Etudiants/public",
-			"type": "string",
-			"disabled": true
+			"type": "string"
 		},
 		{
 			"key": "URL",
 			"value": "http://127.0.0.1:8000",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		}
 	]
 }

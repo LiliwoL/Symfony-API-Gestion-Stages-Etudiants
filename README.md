@@ -254,3 +254,7 @@ Payload à fournir:
 https://openclassrooms.com/fr/courses/7709361-construisez-une-api-rest-avec-symfony/7795148-authentifiez-et-autorisez-les-utilisateurs-de-l-api-avec-jwt
 https://dev.to/loopdelicious/using-jwt-to-authenticate-and-authorize-requests-in-postman-3a5h
 https://jwt.io/introduction
+
+## Génération d'une chaine aléatoire
+
+https://miniwebtool.com/fr/random-string-generator/
