@@ -4,6 +4,9 @@
 
 Un projet de découverte de Symfony pour la création d'une API.
 
+# Documentation API
+https://documenter.getpostman.com/view/2209621/2s93JwP2cv
+
 # API
 
 ![doc/what_is_api.png](doc\what_is_api.png)

@@ -126,9 +126,8 @@ class ApiInternshipController extends AbstractController
      *  name="app_api_internship_show_student",
      *  methods={"GET"}
      * )
-     * @return void
      */
-    public function showInternshipsByStudent( InternshipRepository $internshipRepository, NormalizerInterface $normalizer, int $id )
+    public function showInternshipsByStudent( InternshipRepository $internshipRepository, NormalizerInterface $normalizer, int $id ): JsonResponse
     {
         // Recherche des stages pour un étudiant donné
         // https://symfony.com/doc/5.4/doctrine.html#fetching-objects-from-the-database
@@ -155,5 +154,55 @@ class ApiInternshipController extends AbstractController
 
         // Debug in PostMan
         dd($internships, $internshipsNormalised);
+
+        // Renvoi d'une réponse au format JSON
+        // TODO: améliorer la réponse de cette action de controller
+        return $this->json([
+            'message' => 'Welcome to your new controller!',
+            'path' => 'src/Controller/ApiStudentController.php',
+        ]);
+    }
+
+    /**
+     * @Route(
+     *  "/api/internship/company/{id}",
+     *  name="app_api_internship_show_company",
+     *  methods={"GET"}
+     * )
+     */
+    public function showInternshipsByCompany( InternshipRepository $internshipRepository, NormalizerInterface $normalizer, int $id ): JsonResponse
+    {
+        // Recherche des stages pour un étudiant donné
+        // https://symfony.com/doc/5.4/doctrine.html#fetching-objects-from-the-database
+        $internships = $internshipRepository->findBy(
+            ['idCompany' => $id]
+        );
+
+        /**
+         * Gestion de la circular reference
+         */
+        // On ne peut laisser ceci, car sinon on obtient  l'erreur circular reference
+        //$internshipsNormalised = $normalizer->normalize($internships);
+
+        // Il faut alors gérer un contexte de sérialisation
+        $internshipsNormalised = $normalizer->normalize(
+            $internships,
+            'json',
+            [
+                'circular_reference_handler' => function ($object) {
+                    return $object->getId();
+                }
+            ]
+        );
+
+        // Debug in PostMan
+        dd($internships, $internshipsNormalised);
+
+        // Renvoi d'une réponse au format JSON
+        // TODO: améliorer la réponse de cette action de controller
+        return $this->json([
+            'message' => 'Welcome to your new controller!',
+            'path' => 'src/Controller/ApiStudentController.php',
+        ]);
     }
 }
