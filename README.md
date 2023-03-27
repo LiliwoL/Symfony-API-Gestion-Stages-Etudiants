@@ -16,6 +16,11 @@ https://documenter.getpostman.com/view/2209621/2s93JwP2cv
 
 ***
 
+# Outil gestion de la base sqlite
+
+- DBBrowser
+https://sqlitebrowser.org/dl/
+
 # Initialisation du projet
 :
 > Requis:
