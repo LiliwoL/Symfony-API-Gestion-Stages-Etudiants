@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Company;
 use App\Repository\CompanyRepository;
+use App\Service\ApiKeyService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,42 +25,54 @@ class ApiCompanyController extends AbstractController
      * )
      * @throws ExceptionInterface
      */
-    public function index( CompanyRepository $companyRepository, NormalizerInterface $normalizer): JsonResponse
+    public function index( CompanyRepository $companyRepository, NormalizerInterface $normalizer, ApiKeyService $apiKeyService, Request $request): JsonResponse
     {
-        // Récupération de toutes les entreprises
-        $companies = $companyRepository->findAll();
+        // 1. Vérification de la sécurité
+        $authorized = $apiKeyService->checkApiKey($request);
 
-        // Sérialisation au format JSON
-        $json = json_encode($companies);
-        // Ne va pas fonctionner, car les attributs sont en private.
-        // Il faut normaliser !
+        // 2. Si autorisé, on continue
+        if ($authorized)
+        {
+            // Récupération de toutes les entreprises
+            $companies = $companyRepository->findAll();
 
-        /**
-         * Gestion de la circular reference
-         */
-        // On ne peut laisser ceci, car sinon on obtient l'erreur circular reference
-        //$companiesNormalized = $normalizer->normalize($companies);
+            // Sérialisation au format JSON
+            $json = json_encode($companies);
+            // Ne va pas fonctionner, car les attributs sont en private.
+            // Il faut normaliser !
 
-        // Il faut alors gérer un contexte de sérialisation
-        $companiesNormalized = $normalizer->normalize(
-            $companies,
-            'json',
-            [
-                'circular_reference_handler' => function ($object) {
-                    return $object->getId();
-                }
-            ]
-        );
+            /**
+             * Gestion de la circular reference
+             */
+            // On ne peut laisser ceci, car sinon on obtient l'erreur circular reference
+            //$companiesNormalized = $normalizer->normalize($companies);
 
-        // Debug in PostMan
-        dd($companies, $json, $companiesNormalized);
+            // Il faut alors gérer un contexte de sérialisation
+            $companiesNormalized = $normalizer->normalize(
+                $companies,
+                'json',
+                [
+                    'circular_reference_handler' => function ($object) {
+                        return $object->getId();
+                    }
+                ]
+            );
+
+            // Debug in PostMan
+            //dd($companies, $json, $companiesNormalized);
+
+            $output = $companiesNormalized;
+
+        }else{
+
+            $output = [ "Error" => "Unauthorized"];
+
+        }
 
         // Renvoi d'une réponse au format JSON
-        // TODO: améliorer la réponse de cette action de controller
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/ApiStudentController.php',
-        ]);
+        return $this->json(
+            $output
+        );
     }
 
     /**
